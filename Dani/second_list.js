@@ -1,3 +1,4 @@
+//Ex_01
 chefe()
 function chefe() {
     let vendedores = []
