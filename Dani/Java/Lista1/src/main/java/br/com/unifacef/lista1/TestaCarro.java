@@ -26,15 +26,16 @@ public class TestaCarro {
         obj1.modelo = "Onix";
         obj1.motor = false;
         obj1.velAtual = 0;
-        System.out.println("*Obj1*\nAno: "+obj1.ano+ "\nMarca: "+obj1.marca+"\nModelo: "+obj1.modelo+"\nMotor: "+obj1.motor+"\nVelocidade: "+obj1.velAtual);
-        JOptionPane.showMessageDialog(null, "*Obj1*\nAno: "+obj1.ano+ "\nMarca: "+obj1.marca+"\nModelo: "+obj1.modelo+"\nMotor: "+obj1.motor+"\nVelocidade: "+obj1.velAtual);
-      Carro obj2 = new Carro();
-        obj2.ano = 2016;
-        obj2.marca = "Fiat";
-        obj2.modelo = "Palio";
-        obj2.motor = true;
-        obj2.velAtual = 40;
-        System.out.println("*Obj1*\nAno: "+obj2.ano+ "\nMarca: "+obj2.marca+"\nModelo: "+obj2.modelo+"\nMotor: "+obj2.motor+"\nVelocidade: "+obj2.velAtual);
+        obj1.Mostra("Primeiro Objeto");
+
+      Carro obj2 = new Carro("Fiat", "Palio", 2016, true, 40);
+        obj2.Mostra("Segundo Objeto");
+        obj2.Acelerar(20);
+        obj2.Mostra("Segundo Objeto");
+        obj2.Frear(40);
+        obj2.Mostra("Segundo Objeto");
+        obj2.Ligar();
+        obj2.Mostra("Segundo Objeto");
     }
     
 }
