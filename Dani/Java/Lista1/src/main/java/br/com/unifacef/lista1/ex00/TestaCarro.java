@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.unifacef.lista1;
+package br.com.unifacef.lista1.ex00;
 
 import javax.swing.JOptionPane;
 
