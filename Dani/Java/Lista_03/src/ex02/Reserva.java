@@ -10,6 +10,8 @@ public class Reserva {
     private Voo voo;
 
     public Reserva() {
+        Passageiro passageiro = new Passageiro();
+        Voo voo = new Voo();
     }
 
     public Reserva(int cod, Date data, Passageiro passageiro, Voo voo, float valor) {

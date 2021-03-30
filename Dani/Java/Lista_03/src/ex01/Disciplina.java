@@ -6,6 +6,7 @@ public class Disciplina {
     private Professor professor;
 
     public Disciplina() {
+        Professor professor = new Professor();
     }
 
     public Disciplina(String sigla, int carga, Professor professor) {
