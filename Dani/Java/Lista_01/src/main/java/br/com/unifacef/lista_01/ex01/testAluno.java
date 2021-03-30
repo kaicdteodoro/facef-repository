@@ -1,4 +1,4 @@
-package br.com.unifacef.lista1.ex01;
+package br.com.unifacef.lista_01.ex01;
 
 public class testAluno {
     public static void main(String[] args) {
