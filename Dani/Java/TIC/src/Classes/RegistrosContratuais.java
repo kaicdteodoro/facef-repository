@@ -3,6 +3,7 @@ package Classes;
 import java.util.Arrays;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class RegistrosContratuais {
@@ -18,7 +19,7 @@ public class RegistrosContratuais {
         Cliente cliente = new Cliente();
     }
 
-    public RegistrosContratuais(String processo, String preg, Date validade, ProdutosContrato produtos, Cliente cliente) {
+    public RegistrosContratuais(String processo, String preg, Date validade, ProdutosContrato[] produtos, Cliente cliente) {
         this.setProcesso(processo);
         this.setPreg(preg);
         this.setValidade(validade);
@@ -26,8 +27,9 @@ public class RegistrosContratuais {
         this.setCliente(cliente);
     }
 
-    public final void setProdutos(ProdutosContrato produtos) {
-        this.produtos[this.produtos.length-1] = produtos;
+
+    public final void setProdutos(ProdutosContrato[] produtos) {
+        this.produtos = produtos;
     }
 
     public final void setCliente(Cliente cliente) {
@@ -74,6 +76,23 @@ public class RegistrosContratuais {
         return qntRealinhamentos;
     }
 
+    public void concluirEmpenho(Empenho empenho) {
+        boolean test = false;
+        for (ProdutosContrato p : produtos) {
+            int i = 0;
+            String erros = "";
+            while (i < empenho.getProdutos().length) {
+                test = empenho.getProdutos()[i].getCod() == p.getProduto().getCod();
+                i++;
+            }
+            if (test) {
+                p.setQuant(empenho.getQuantidades()[i]);
+            } else {
+                erros += "/" + p.getProduto().getCod();
+            }
+        }
+
+    }
 
     public String Mostra() {
         return "RegistrosContratuais{" +
@@ -86,5 +105,5 @@ public class RegistrosContratuais {
                 '}';
     }
     //public String[] vencidos() {
-        //não consegui }
+    //não consegui }
 }

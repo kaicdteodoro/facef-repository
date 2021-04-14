@@ -39,8 +39,8 @@ public class ProdutosContrato {
         this.marcaContr = marcaContr;
     }
 
-    public final void setQuant(int quant) {
-        this.quant = quant;
+    public void setQuant(int quant) {
+        this.quant = quant <= this.quant ? quant : this.quant;
     }
 
     public final void setCustoContr(float custoContr) {
