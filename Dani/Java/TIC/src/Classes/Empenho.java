@@ -3,10 +3,10 @@ package Classes;
 public class Empenho {
     private String numEmpenho;
     private String preg;
-    private Produtos[] produtos;
+    private Produto[] produtos;
     private int[] quantidades;
 
-    public Empenho(String numEmpenho, String preg, Produtos[] produtos, int[] quantidades) {
+    public Empenho(String numEmpenho, String preg, Produto[] produtos, int[] quantidades) {
         this.setNumEmpenho(numEmpenho);
         this.setPreg(preg);
         this.setProdutos(produtos);
@@ -20,7 +20,7 @@ public class Empenho {
         this.preg = preg;
     }
 
-    public final void setProdutos(Produtos[] produtos) {
+    public final void setProdutos(Produto[] produtos) {
         this.produtos = produtos;
     }
 
@@ -40,7 +40,7 @@ public class Empenho {
         return preg;
     }
 
-    public Produtos[] getProdutos() {
+    public Produto[] getProdutos() {
         return produtos;
     }
 

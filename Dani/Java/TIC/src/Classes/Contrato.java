@@ -2,10 +2,10 @@ package Classes;
 
 import java.util.Date;
 
-public class Contrato extends RegistrosContratuais {
+public class Contrato extends RegistroContratual {
 private int numContr;
 
-    public Contrato(String processo, String preg, Date validade, ProdutosContrato produtos, Cliente cliente, int numContr) {
+    public Contrato(String processo, String preg, Date validade, ProdutoContrato produtos, Cliente cliente, int numContr) {
         super(processo, preg, validade, produtos, cliente);
         this.setNumContr(numContr);
     }
