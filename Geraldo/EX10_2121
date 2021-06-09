@@ -1,0 +1,36 @@
+// 01 
+     Resposta:
+         B -> D
+
+// 02
+     Resposta:
+         Prod (
+             #NumeroProd, 
+             DescricaoProd, 
+             PreçoItem, 
+             *CodigoTipoProd
+            ),
+
+         TipoProd (
+             #CodigoTipoProd, 
+             DescricaoTipoProd
+            ),
+
+         Venda (
+             #CodReg, 
+             NumeroNF, 
+             *NumeroProd, 
+             *CodEmp, 
+             QtdeItem, 
+             DataVenda
+             ),
+
+         EmpProd (
+             *CodEmp, 
+             *NumeroProd
+             ),
+
+         Emp (
+             #CodEmp,
+             NomeEmp
+             )
