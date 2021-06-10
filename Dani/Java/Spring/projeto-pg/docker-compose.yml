@@ -1,0 +1,17 @@
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:8.0
+      container_name: dani-mysql
+      working_dir: /application
+      volumes:
+        - ./docker/db-data:/var/lib/mysql/
+          - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+      environment:
+        - MYSQL_ROOT_PASSWORD=secret
+        - MYSQL_DATABASE=projetodani
+        - MYSQL_USER=user
+        - MYSQL_PASSWORD=user
+      ports:
+        - "3307:3306"

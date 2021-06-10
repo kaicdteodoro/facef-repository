@@ -1,0 +1,74 @@
+package br.com.unifacef;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import br.com.unifacef.model.Comment;
+import br.com.unifacef.model.PaymentCard;
+import br.com.unifacef.model.PaymentTicket;
+import br.com.unifacef.model.Post;
+import br.com.unifacef.model.Usuario;
+import br.com.unifacef.repositories.PaymentCardRepository;
+import br.com.unifacef.repositories.PaymentTicketRepository;
+import br.com.unifacef.repositories.PostRepository;
+import br.com.unifacef.repositories.UsuarioRepository;
+
+@SpringBootApplication
+public class ProjetoPgApplication implements CommandLineRunner{
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProjetoPgApplication.class, args);
+	}
+
+	@Autowired 
+	PostRepository injecao;
+	
+	@Autowired 
+	PaymentCardRepository injecaoCard;
+	
+	@Autowired 
+	PaymentTicketRepository injecaoTicket;
+	
+	@Autowired 
+	UsuarioRepository injecaoUsuario;
+	
+	@Override
+	public void run(String... args) throws Exception {
+		// TODO Auto-generated method stub
+	/*	
+		// vamos criar um post
+		Post post = new Post("JPA sobe salário para 6K", "Prof. Daniel");
+		
+		// vamos criar 3 comments
+		Comment comment1 = new Comment("Será que é verdade", "Wesley");
+		Comment comment2 = new Comment("Sim, eu já estou ganhando isso", "Pedro");
+		Comment comment3 = new Comment("Duvido, eu ainda não", "Gustavo");
+		
+		// associar o post aos comentários
+		post.getComments().add(comment1);
+		post.getComments().add(comment2);
+		post.getComments().add(comment3);
+		
+		injecao.save(post);
+		
+		
+		
+		PaymentCard pc1 = new PaymentCard(500, new Date(), "Visa");
+		PaymentCard pc2 = new PaymentCard(600, new Date(), "Mastercard");
+		injecaoCard.save(pc1);
+		injecaoCard.save(pc2);
+		
+		PaymentTicket pt1 = new PaymentTicket(200, new Date(), 10);
+		injecaoTicket.save(pt1); */
+		
+		Usuario usu = new Usuario("teste@gmail.com", "123", "Teste");
+		injecaoUsuario.save(usu);
+		
+	}
+
+	
+}
