@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produtos Cadastrados</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <style>
+      .form-title {
+        padding-top: 30px;
+        padding-bottom: 30px;
+      }
+
+      .button {
+        padding-top: 30px;
+        padding-bottom: 80px;
+      }
+      
+    </style>
+
+    <script>
+      function cadastrar() {
+        // recupera os dados do client
+        let id = document.getElementById("id").value;
+        let nome = document.getElementById("nome").value;
+        let email = document.getElementById("email").value;
+        let cnpj = document.getElementById("cnpj").value;
+
+        // monta um objeto com os dados recuperados
+        let cliente = new Object();
+        cliente.id = id;
+        cliente.nome = nome;
+        cliente.email = email;
+        cliente.cnpj = cnpj;
+        
+        let verbo;
+
+        if (id == "") {
+          // id vazio irá cadastrar
+          verbo = "POST";
+        } else {
+          // irá atualizar
+          verbo = "PUT";
+          cliente.id = id;
+        }
+
+        // vamos conectar no servidor e consumir a API
+
+        let request = new XMLHttpRequest();
+
+        request.open(verbo, "http://localhost:8080/cliente", true);
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status <= 400) {
+            console.log("Conexão OK");
+          } else {
+            console.log("Problema na conexão");
+          }
+        };
+
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(cliente));
+        alert("Produto cadastrado com sucesso");
+        consultar();
+      }
+
+      function consultar() {
+        let request = new XMLHttpRequest();
+        request.open("GET", "http://localhost:8080/cliente", true);
+        request.onload = function () {
+          let produtos_contrato = JSON.parse(this.response);
+          console.log(produtos_contrato.unidade);
+          let result = "";
+
+          produtos_contrato.forEach((produto) => {
+            result =
+              result +
+              `<tr> <td> ${produto.unidade} </td> <td> ${produto.custo} </td> <td> ${produto.marca} </td> <td> ${produto.descricao} </td> <td> ${produto.situacao} </td> <td> ${produto.quantidade_total} </td> <td> ${produto.margem} </td> <td> ${produto.custo_venda_contrato} </td> <td> ${produto.fator_conversao} </td> <td> ${produto.quantidade_restante} </td><td> <i onCLick="remove(${produto.id})" class="bi bi-trash"></i> </td> <td> <i onClick="atualiza(${produto.id}, '${produto.unidade}', ${produto.custo}, '${produto.marca}', '${produto.descricao}', '${produto.situacao}', ${produto.quantidade_total}, ${produto.margem}, ${produto.custo_venda_contrato}, ${produto.fator_conversao}, ${produto.quantidade_restante} )" class="bi bi-arrow-clockwise"> </i> </td> </tr> `;
+          });
+          document.getElementById("conteudoTabela").innerHTML = result;
+          console.log(produtos_contrato);
+        };
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send();
+      }
+
+      function remove(id) {
+        let request = new XMLHttpRequest();
+        request.open(
+          "DELETE",
+          `http://localhost:8080/cliente/${id}`,
+          true
+        );
+        request.send();
+        alert(`Produto foi removido com sucesso`);
+        consultar(); // atualiza lista de pacientes
+      }
+
+      function atualiza(
+        id,
+        unidade,
+        custo,
+        marca,
+        descricao,
+        situacao,
+        quantidade_total,
+        margem,
+        valor_venda,
+        fator_conversao
+      ) {
+        document.getElementById("unidade").value = unidade;
+        document.getElementById("custo").value = custo;
+        document.getElementById("marca").value = marca;
+        document.getElementById("descricao").value = descricao;
+        document.getElementById("situacao").value = situacao;
+        document.getElementById("quantidadeTotal").value = quantidade_total;
+        document.getElementById("margem").value = margem;
+        document.getElementById("valorVenda").value = valor_venda;
+        document.getElementById("fatorConversao").value = fator_conversao;
+        document.getElementById("quantidadeRestante").value =
+          quantidade_restante;
+        // vamos passar também o ID para um input escondido
+        document.getElementById("id").value = id;
+      }
+    </script>
+  </head>
+  <body onload="getTable()">
+    <header>
+      <!-- Barra de Navegação -->
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <img src=".//img/logo branca.png" alt="Alici Logo" width="150px" />
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active text-light"
+                  aria-current="page"
+                  href=".//ProdutosCadastrados.html"
+                  >Produtos Cadastrados</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href=".//ProdutosContrato.html"
+                  >Produtos em Contrato</a
+                >
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle text-light"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Realinhamentos
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a class="dropdown-item" href="#">Itens em realinhamento</a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="#">Itens realinhados</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+      <!-- Barra de Navegação End-->
+    </header>
+    <!-- Formulário para cadastro de Produtos -->
+   
+    <!-- Formulário para cadastro de Produtos END -->
+    <section>
+
+      <main>
+        <div class="container">
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>           
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">CNPJ</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tb_tbody">
+              <tr> <td> ${cliente.nome} </td> <td> ${cliente.email} </td> <td> ${cliente.cnpj} </td> <td> <div class="btn-group mr-2 btn-group-sm" role="group" aria-label="First group">
+                <button type="button" class="btn btn-info" onclick="show(${cliente.id})">Atualizar</button>
+                <button type="button" class="btn btn-danger" onclick="remove(${cliente.id})">Remover</button>
+              </div></td> </tr>
+            </tbody>
+          </table>
+          <div class="align-center">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_submit">
+              Adicionar Clientes
+            </button>
+          </div>
+        </div>
+
+<div class="modal fade" id="modal_submit" tabindex="-1" role="dialog" aria-labelledby="modal_submit" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Formulário de CLientes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          
+            <input type="number" class="form-control" id="input_id" hidden>
+          
+          <div class="form-group">
+            <label for="input_nome">Nome</label>
+            <input type="text" class="form-control" id="input_nome" placeholder="Entre com o nome do cliente">
+          </div>
+
+          <div class="form-group">
+            <label for="input_email">E-mail</label>
+            <input type="email" class="form-control" id="input_email" placeholder="Entre com o e-mail do cliente">
+          </div>
+
+          <div class="form-group">
+            <label for="input_cnpj">CNPJ</label>
+            <input type="text" class="form-control" id="input_cnpj" placeholder="Entre com o CNPJ do cliente">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" onclick="requestOpen()" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+      </main>
+      
+      
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/path/to/bootstrap/js/bootstrap.min.js"></script>
+    <script>
+      getTable = () => {
+        let request = new XMLHttpRequest();
+        request.open("GET", "http://localhost:8080/cliente", true);
+        request.onload = function () {
+          let cli_response = JSON.parse(this.response);
+          
+          let result = "";
+
+          cli_response.forEach((cliente) => {
+            result +=
+              `<tr> <td> ${cliente.nome} </td> <td> ${cliente.email} </td> <td> ${cliente.cnpj} </td> <td> <div class="btn-group mr-2" role="group" aria-label="First group">
+    <button type="button" class="btn btn-info" onclick="show(${cliente.id})">Atualizar</button>
+    <button type="button" class="btn btn-danger" onclick="remove(${cliente.id})">Remover</button>
+  </div></td> </tr> `;
+          });
+          document.getElementById("tb_tbody").innerHTML = result;
+        
+        };
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send();
+      }
+
+remove = (id) => {
+  let request = new XMLHttpRequest();
+        request.open(
+          "DELETE",
+          `http://localhost:8080/cliente/${id}`,
+          true
+        );
+        request.send();
+        getTable();
+}
+
+$('#btn_create').click(function () {
+  $('#modal_submit').modal(show)
+});
+
+show = (id) => {
+  let request = new XMLHttpRequest();
+        request.open("PATCH", `http://localhost:8080/cliente/${id}`, true);
+        request.onload = function () {
+          let show_response = JSON.parse(this.response);
+
+          document.getElementById("input_id").value = undefined;
+          document.getElementById("input_nome").value = undefined;
+          document.getElementById("input_email").value = undefined;
+          document.getElementById("input_cnpj").value = undefined;
+
+          document.getElementById("input_id").value = show_response.id;
+          document.getElementById("input_nome").value = show_response.nome;
+          document.getElementById("input_email").value = show_response.email;
+          document.getElementById("input_cnpj").value = show_response.cnpj;
+
+       $('#modal_submit').modal(show)
+}
+  request.send();
+}
+
+function requestOpen() {
+        let cliente = new Object();
+        cliente.id = document.getElementById("id").value ? document.getElementById("id").value : false;
+        cliente.nome = document.getElementById("nome").value;
+        cliente.email = document.getElementById("email").value;
+        cliente.cnpj = document.getElementById("cnpj").value;
+
+        let request = new XMLHttpRequest();
+
+        request.open((cliente.id ? "PUT" : "POST"), "http://localhost:8080/cliente", true);
+        request.setRequestHeader("Content-Type", "application/json");
+        request.send(JSON.stringify(cliente));
+        alert("Produto cadastrado com sucesso");
+        getTable();
+      }
+    </script>
+  </body>
+</html>
+  
